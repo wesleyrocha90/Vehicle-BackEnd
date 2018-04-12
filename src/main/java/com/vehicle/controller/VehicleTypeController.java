@@ -35,7 +35,7 @@ public class VehicleTypeController {
 
     @PostMapping
     public ResponseEntity save(@RequestBody VehicleType vehicleType) {
-        return new ResponseEntity(vehicleTypeRepository.save(vehicleType), HttpStatus.OK);
+        return new ResponseEntity(vehicleTypeRepository.save(vehicleType), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

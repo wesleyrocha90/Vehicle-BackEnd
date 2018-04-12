@@ -1,4 +1,4 @@
-package com.vehicle;
+package com.vehicle.controller;
 
 import com.vehicle.model.Vehicle;
 import com.vehicle.repository.VehicleRepository;
@@ -34,7 +34,7 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity save(@RequestBody Vehicle vehicle) {
-        return new ResponseEntity(vehicleRepository.save(vehicle), HttpStatus.OK);
+        return new ResponseEntity(vehicleRepository.save(vehicle), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
