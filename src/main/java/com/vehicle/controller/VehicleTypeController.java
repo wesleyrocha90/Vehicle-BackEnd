@@ -2,7 +2,6 @@ package com.vehicle.controller;
 
 import com.vehicle.model.VehicleType;
 import com.vehicle.repository.VehicleTypeRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class VehicleTypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findAll(@PathVariable Long id) {
+    public ResponseEntity findById(@PathVariable Long id) {
         return new ResponseEntity(vehicleTypeRepository.findById(id), HttpStatus.OK);
     }
 

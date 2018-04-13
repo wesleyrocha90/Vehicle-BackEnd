@@ -28,7 +28,7 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findAll(@PathVariable Long id) {
+    public ResponseEntity findById(@PathVariable Long id) {
         return new ResponseEntity(vehicleRepository.findById(id), HttpStatus.OK);
     }
 
