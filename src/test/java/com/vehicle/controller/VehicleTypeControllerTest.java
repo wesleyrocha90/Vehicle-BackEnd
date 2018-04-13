@@ -65,6 +65,6 @@ public class VehicleTypeControllerTest {
         VehicleType vehicleType = new VehicleType(1L, "Name", "Description");
         Mockito.when(vehicleTypeRepository.findById(vehicleType.getId())).thenReturn(Optional.of(vehicleType));
         mockMvc.perform(MockMvcRequestBuilders.delete("/vehicleType/{id}", vehicleType.getId()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 }

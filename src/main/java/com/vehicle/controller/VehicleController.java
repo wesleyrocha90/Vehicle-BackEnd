@@ -2,6 +2,8 @@ package com.vehicle.controller;
 
 import com.vehicle.model.Vehicle;
 import com.vehicle.repository.VehicleRepository;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
-    
+
     @Autowired
     private VehicleRepository vehicleRepository;
 
@@ -29,17 +31,26 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable Long id) {
-        return new ResponseEntity(vehicleRepository.findById(id), HttpStatus.OK);
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(id);
+        if (optionalVehicle.isPresent()) {
+            return new ResponseEntity(optionalVehicle.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
-    public ResponseEntity save(@RequestBody Vehicle vehicle) {
+    public ResponseEntity save(@Valid @RequestBody Vehicle vehicle) {
         return new ResponseEntity(vehicleRepository.save(vehicle), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        vehicleRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            vehicleRepository.deleteById(id);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (Exception ex) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }
