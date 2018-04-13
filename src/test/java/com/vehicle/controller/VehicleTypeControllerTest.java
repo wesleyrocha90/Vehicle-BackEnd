@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -44,10 +43,9 @@ public class VehicleTypeControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(vehicleTypeController).build();
     }
 
-    @Ignore
     @Test
     public void testVehicleTypeFindAll() throws Exception {
-        List<VehicleType> types = Arrays.asList(new VehicleType(1L, "Teste", "Teste"));
+        List<VehicleType> types = Arrays.asList(new VehicleType(1L, "Name", "Description"));
         Mockito.when(vehicleTypeRepository.findAll()).thenReturn(types);
         mockMvc.perform(MockMvcRequestBuilders.get("/vehicleType").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -55,19 +53,16 @@ public class VehicleTypeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Is.is(1)));
     }
     
-    @Ignore
     @Test
     public void testVehicleTypeSave() throws Exception {
-        VehicleType vehicleType = new VehicleType(null, "Novo", "Novo");
-//        Mockito.doNothing().when(vehicleTypeRepository).save(vehicleType);
+        VehicleType vehicleType = new VehicleType(null, "Name", "Description");
         mockMvc.perform(MockMvcRequestBuilders.post("/vehicleType").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(vehicleType)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
     
-    @Ignore
     @Test
     public void testVehicleTypeDelete() throws Exception {
-        VehicleType vehicleType = new VehicleType(1L, "Novo", "Novo");
+        VehicleType vehicleType = new VehicleType(1L, "Name", "Description");
         Mockito.when(vehicleTypeRepository.findById(vehicleType.getId())).thenReturn(Optional.of(vehicleType));
         mockMvc.perform(MockMvcRequestBuilders.delete("/vehicleType/{id}", vehicleType.getId()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
