@@ -44,7 +44,7 @@ public class VehicleControllerTest {
     }
     
     @Test
-    public void testVehicleFindAll() throws Exception {
+    public void testVehicleFindAll_Ok() throws Exception {
         List<Vehicle> types = Arrays.asList(new Vehicle(1L, "Name", "Description", "Plate", null));
         Mockito.when(vehicleRepository.findAll()).thenReturn(types);
         mockMvc.perform(MockMvcRequestBuilders.get("/vehicle").contentType(MediaType.APPLICATION_JSON))
@@ -54,14 +54,21 @@ public class VehicleControllerTest {
     }
     
     @Test
-    public void testVehicleSave() throws Exception {
-        Vehicle vehicle = new Vehicle(1L, "Name", "Description", "Plate", null);
+    public void testVehicleSave_Ok() throws Exception {
+        Vehicle vehicle = new Vehicle(null, "Name", "Description", "Plate", null);
         mockMvc.perform(MockMvcRequestBuilders.post("/vehicle").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(vehicle)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
     
     @Test
-    public void testVehicleDelete() throws Exception {
+    public void testVehicleSave_MissingData() throws Exception {
+        Vehicle vehicle = new Vehicle(null, "Name", "Description", null, null);
+        mockMvc.perform(MockMvcRequestBuilders.post("/vehicle").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(vehicle)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+    
+    @Test
+    public void testVehicleDelete_Ok() throws Exception {
         Vehicle vehicle = new Vehicle(1L, "Name", "Description", "Plate", null);
         Mockito.when(vehicleRepository.findById(vehicle.getId())).thenReturn(Optional.of(vehicle));
         mockMvc.perform(MockMvcRequestBuilders.delete("/vehicle/{id}", vehicle.getId()).contentType(MediaType.APPLICATION_JSON))
