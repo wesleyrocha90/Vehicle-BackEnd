@@ -2,6 +2,7 @@ package com.vehicle.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.vehicle.deserialize.VehicleTypeDeserialize;
+import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
